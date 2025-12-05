@@ -1,0 +1,26 @@
+
+product:
+  image:
+    repository: ""
+    tag: "latest"
+  port: 3001
+cart:
+  image:
+    repository: ""
+    tag: "latest"
+  port: 3002
+payment:
+  image:
+    repository: ""
+    tag: "latest"
+  port: 3003
+search:
+  image:
+    repository: ""
+    tag: "latest"
+  port: 3004
+frontend:
+  image:
+    repository: ""
+    tag: "latest"
+  port: 3000

@@ -1,0 +1,16 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-eks-project-dev-cluste
+  region: ap-south-1
+
+iam:
+  withOIDC: true
+
+  serviceAccounts:
+    - metadata:
+        name: secrets-reader
+        namespace: default
+      attachPolicyARNs:
+        - arn:aws:iam::013218822729:policy/ShopSecretsReadPolicy

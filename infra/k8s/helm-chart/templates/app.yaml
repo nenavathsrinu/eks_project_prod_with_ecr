@@ -1,0 +1,28 @@
+
+{{- range $name, $cfg := .Values }}
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: {{ $name }} }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: {{ $name }} } }
+  template:
+    metadata: { labels: { app: {{ $name }} } }
+    spec:
+      containers:
+      - name: {{ $name }}
+        image: {{ $cfg.image.repository }}:{{ $cfg.image.tag }}
+        ports:
+        - containerPort: {{ $cfg.port }}
+---
+apiVersion: v1
+kind: Service
+metadata: { name: {{ $name }} }
+spec:
+  selector: { app: {{ $name }} }
+  ports:
+  - port: {{ $cfg.port }}
+    targetPort: {{ $cfg.port }}
+  type: ClusterIP
+---
+{{- end }}

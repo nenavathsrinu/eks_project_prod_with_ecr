@@ -1,0 +1,27 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/products
+        pathType: Prefix
+        backend: { service: { name: product-service, port: { number: 3001 } } }
+      - path: /api/cart
+        pathType: Prefix
+        backend: { service: { name: cart-service, port: { number: 3002 } } }
+      - path: /api/pay
+        pathType: Prefix
+        backend: { service: { name: payment-service, port: { number: 3003 } } }
+      - path: /api/search
+        pathType: Prefix
+        backend: { service: { name: search-service, port: { number: 3004 } } }
+      - path: /
+        pathType: Prefix
+        backend: { service: { name: frontend, port: { number: 3000 } } }

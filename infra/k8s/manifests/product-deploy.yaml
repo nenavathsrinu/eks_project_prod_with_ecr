@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      serviceAccountName: secrets-reader
+
+      volumes:
+        - name: aws-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: shop-db-spc
+
+      containers:
+        - name: product
+          image: 013218822729.dkr.ecr.us-east-1.amazonaws.com/product-service:v4
+          ports:
+            - containerPort: 3001
+          volumeMounts:
+            - name: aws-secrets
+              mountPath: /mnt/secrets
+              readOnly: true
